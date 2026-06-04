@@ -45,9 +45,10 @@ resetBtn.addEventListener("click", () => {
 });
 
 function createBoard() {
-  gameOver = false;
-  board.innerHTML = "";
-  boardArr = [];
+    statusFace.textContent = "🙂";
+    gameOver = false;
+    board.innerHTML = "";
+    boardArr = [];
     for (let i = 0; i < rows; i++) {
     let rowArr = [];
     for (let j = 0; j < columns; j++) {
@@ -63,9 +64,13 @@ function createBoard() {
         const row = parseInt(cell.getAttribute("data-row"));
         const col = parseInt(cell.getAttribute("data-col"));
         if (!boardArr[row][col].revealed) {
-          boardArr[row][col].flagged = !boardArr[row][col].flagged;
-          cell.classList.toggle("flagged");
-          cell.innerHTML = boardArr[row][col].flagged ? "🚩" : "";
+            if(mines - document.querySelectorAll(".flagged").length == 0){
+                alert("Are you sure you want to place more flags? You have already flagged all the mines.");
+            }
+            boardArr[row][col].flagged = !boardArr[row][col].flagged;
+            cell.classList.toggle("flagged");
+            cell.innerHTML = boardArr[row][col].flagged ? "🚩" : "";
+            document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
         }
       });
       board.appendChild(cell);
@@ -116,6 +121,7 @@ function setMarkers() {
 
 function handleCellClick(e) {
     if (gameOver) return;
+    document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
     const cell = e.target;
     const row = parseInt(cell.getAttribute("data-row"));
     const col = parseInt(cell.getAttribute("data-col"));
@@ -125,21 +131,37 @@ function handleCellClick(e) {
     if (boardArr[row][col].hasMine) {
         cell.innerHTML = "💣";
         gameOver = true;
+        cell.classList.add("mine-hit");
+        board.classList.add("shake");
+        statusFace.textContent = "😵";
         setTimeout(() => {
-            alert("Game Over! You hit a mine.");
             revealAllMines();
-            cell.classList.add("mine-hit");
-        }, 0);
+            minesFound = document.querySelectorAll(".flagged").length;
+            alert("Game Over! You hit a mine. Mines found: " + minesFound + "/" + mines);
+            cell.innerHTML = "💥";
+            board.classList.remove("shake");
+        }, 300);
     } else {
         const mineCount = boardArr[row][col].mineCount;
+        statusFace.textContent = "😮";
+        setTimeout(() => {
+            statusFace.textContent = "🙂";
+        }, 500);
         if (mineCount === 0) {
+            if(boardArr[row][col].flagged){
+                cell.innerHTML = "";
+                cell.classList.remove("flagged");
+                boardArr[row][col].flagged = false;
+            }
             revealEmptyCells(row, col);
         } else {
             cell.innerHTML = mineCount > 0 ? mineCount : "";
         }
         if (checkWin()) {
             gameOver = true;
-            alert("Congratulations! You've cleared the minefield!");
+            setTimeout(() => {
+                alert("Congratulations! You've cleared the minefield!");
+            }, 0);
         }
     }
 }
@@ -165,10 +187,18 @@ function revealEmptyCells(row, col) {
 function revealAllMines() {
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
-            if (boardArr[i][j].hasMine) {
+            if (boardArr[i][j].hasMine && !boardArr[i][j].flagged) {
                 const cell = document.getElementById(`cell-${i}-${j}`);
                 cell.classList.add("revealed");
                 cell.innerHTML = "💣";
+            } else if (boardArr[i][j].hasMine && boardArr[i][j].flagged) {
+                const cell = document.getElementById(`cell-${i}-${j}`);
+                cell.classList.add("revealed");
+                cell.innerHTML = "🚩";
+            } else if (!boardArr[i][j].hasMine && boardArr[i][j].flagged) {
+                const cell = document.getElementById(`cell-${i}-${j}`);
+                cell.classList.add("revealed");
+                cell.innerHTML = "❌";
             }
         }
     }
@@ -182,5 +212,18 @@ function checkWin() {
             }
         }
     }
+    statusFace.textContent = "😎";
     return true;
 }
+
+// document.addEventListener("mousedown", (e) => {
+//     if (e.button === 0) {
+//         statusFace.textContent = "😮";
+//     }
+// });
+
+// document.addEventListener("mouseup", (e) => {
+//     if (e.button === 0) {
+//         statusFace.textContent = "🙂";
+//     }
+// });
