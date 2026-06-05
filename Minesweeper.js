@@ -370,7 +370,7 @@ function giveSelectionHint(){
         return;
     }
 
-    const confirmed = confirm("Do you want a selection hint? Select an unrevealed cell and it will be revealed.");
+    const confirmed = confirm("Do you want a selection hint? Select an unrevealed cell and it will be revealed safely.");
     if (!confirmed) return;
 
     selectionHintActive = true;
