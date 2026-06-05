@@ -33,6 +33,9 @@ rowsInput.addEventListener("change", (e) => {
         Math.floor(rows*columns*10/100) < 1 ? minesInput.value = 1 : minesInput.value = Math.floor(rows*columns*10/100);
         alert("Seems easy but minimum mine count is 10%")
     }
+    mines = parseInt(e.target.value);
+    console.log("mines:", mines);
+    document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
     document.documentElement.style.setProperty("--rows", rows);
     console.log("rows:", rows);
     createBoard();
@@ -64,6 +67,9 @@ colsInput.addEventListener("change", (e) => {
         Math.floor(rows*columns*10/100) < 1 ? minesInput.value = 1 : minesInput.value = Math.floor(rows*columns*10/100);
         alert("Seems easy but minimum mine count is 10%")
     }
+    mines = parseInt(e.target.value);
+    console.log("mines:", mines);
+    document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
     document.documentElement.style.setProperty("--cols", columns);
     console.log("columns:", columns);
     createBoard();
