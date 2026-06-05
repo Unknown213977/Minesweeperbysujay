@@ -19,23 +19,33 @@ rowsInput.addEventListener("change", (e) => {
     rows = parseInt(e.target.value);
     if(minesInput.value > rows*columns){
         minesInput.value = Math.floor(rows*columns*50/100);
+        mines = parseInt(minesInput.value);
+        console.log("mines:", mines);
+        document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
         alert("Maximum mine count is 50% and the mines aren't fitting in the board.")
         return;
     } else if (minesInput.value > Math.floor(rows*columns*50/100)){
         minesInput.value = Math.floor(rows*columns*50/100);
+        mines = parseInt(minesInput.value);
+        console.log("mines:", mines);
+        document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
         alert("Maximum mine count is 50%")
     }
     if(minesInput.value < 1){
         minesInput.value = 1;
+        mines = parseInt(minesInput.value);
+        console.log("mines:", mines);
+        document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
         alert("Why do you want to play with no mines?")
     }
     if(minesInput.value < Math.floor(rows*columns*10/100)){
         Math.floor(rows*columns*10/100) < 1 ? minesInput.value = 1 : minesInput.value = Math.floor(rows*columns*10/100);
+        mines = parseInt(minesInput.value);
+        console.log("mines:", mines);
+        document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
         alert("Seems easy but minimum mine count is 10%")
     }
-    mines = parseInt(e.target.value);
-    console.log("mines:", mines);
-    document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
+    
     document.documentElement.style.setProperty("--rows", rows);
     console.log("rows:", rows);
     createBoard();
@@ -53,21 +63,33 @@ colsInput.addEventListener("change", (e) => {
     columns = parseInt(e.target.value);
     if(minesInput.value > rows*columns){
         minesInput.value = Math.floor(rows*columns*50/100);
+        mines = parseInt(minesInput.value);
+        console.log("mines:", mines);
+        document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
         alert("Maximum mine count is 50% and the mines aren't fitting in the board.")
         return;
     } else if (minesInput.value > Math.floor(rows*columns*50/100)){
         minesInput.value = Math.floor(rows*columns*50/100);
+        mines = parseInt(minesInput.value);
+        console.log("mines:", mines);
+        document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
         alert("Maximum mine count is 50%")
     }
     if(minesInput.value < 1){
         minesInput.value = 1;
+        mines = parseInt(minesInput.value);
+        console.log("mines:", mines);
+        document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
         alert("Why do you want to play with no mines?")
     }
     if(minesInput.value < Math.floor(rows*columns*10/100)){
         Math.floor(rows*columns*10/100) < 1 ? minesInput.value = 1 : minesInput.value = Math.floor(rows*columns*10/100);
+        mines = parseInt(minesInput.value);
+        console.log("mines:", mines);
+        document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
         alert("Seems easy but minimum mine count is 10%")
     }
-    mines = parseInt(e.target.value);
+    mines = parseInt(minesInput.value);
     console.log("mines:", mines);
     document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
     document.documentElement.style.setProperty("--cols", columns);
@@ -114,6 +136,7 @@ resetBtn.addEventListener("click", () => {
     rowsInput.disabled = false;
     colsInput.disabled = false;
     minesInput.disabled = false;
+    latestRevealedCell = {row: -1, col: -1};
     createBoard();
 });
 
@@ -145,6 +168,7 @@ function createBoard() {
             cell.innerHTML = boardArr[row][col].flagged ? "🚩" : "";
             document.getElementById("minesCount").textContent = mines - document.querySelectorAll(".flagged").length;
         }
+        latestRevealedCell = {row: row, col: col};
       });
       board.appendChild(cell);
       rowArr.push({ hasMine: false, revealed: false, flagged: false });
@@ -382,15 +406,3 @@ function giveSelectionHint(){
     selectionHintActive = true;
     alert("Select an unrevealed cell on the board to reveal it.");
 }
-
-// document.addEventListener("mousedown", (e) => {
-//     if (e.button === 0) {
-//         statusFace.textContent = "😮";
-//     }
-// });
-
-// document.addEventListener("mouseup", (e) => {
-//     if (e.button === 0) {
-//         statusFace.textContent = "🙂";
-//     }
-// });
