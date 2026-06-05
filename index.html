@@ -12,8 +12,13 @@
             <div class="title">Minesweeper</div>
             <div class="controls">
                 <div class="buttons">
-                    <button id="strtGameBtn">Start Game</button>
-                    <button id="resetBtn">Reset</button>
+                    <button id="strtGameBtn" class="headBtn">Start Game</button>
+                    <button id="resetBtn" class="headBtn">Reset</button>
+                </div>
+                <div class="hintButtons">
+                    <span>Hints:</span>
+                    <button id="hintBtn" onclick="giveHint()">💡</button>
+                    <button id="selectionHintBtn" onclick="giveSelectionHint()">⛶</button>
                 </div>
                 <div class="rowsInputCont">
                     <label for="rowsInput">Rows:</label>
