@@ -65,13 +65,13 @@ body{
     gap: 15px;
 }
 
-.buttons{
+.buttons, .hintButtons{
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
 }
 
-.buttons button{
+.buttons .headBtn{
     padding: 10px 20px;
     font-size: 1rem;
     cursor: pointer;
@@ -83,14 +83,36 @@ body{
     font-weight: 500;
 }
 
-.buttons button:hover{
+.buttons .headBtn:hover{
     background-color: #fff;
     color: #000;
 }
 
-.buttons button:active{
+.buttons .headBtn:active{
     background-color: #000;
     color: #fff;
+}
+
+.hintButtons > button{
+    font-size: 2rem;
+    cursor: pointer;
+    font-weight: 500;
+    background: none;
+    border: none;
+    padding: 0;
+    border-radius: 50%;
+}
+
+#hintBtn:active{
+    text-shadow: 0px 0px 20px #ff4d00;
+
+}
+
+#selectionHintBtn{
+    transition: transform 0.5s;
+}
+#selectionHintBtn:active{
+    transform: rotateZ(90deg);
 }
 
 .controls > div{
@@ -146,7 +168,7 @@ body{
 }
 
 .cell:hover{
-    background-color: #bbb;
+    background-color: #dedede;
     cursor: pointer;
 }
 
