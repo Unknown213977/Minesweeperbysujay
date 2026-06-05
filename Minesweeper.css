@@ -187,16 +187,13 @@ body{
 }
 
 @media (max-width: 699px) {
-    .cont {
-        flex-direction: column;
-    }
     .left {
         width: 100%;
         height: auto;
     }
     .right {
         width: 100%;
-        height: 50dvh;
+        min-height: 50dvh;
     }
 }
 
